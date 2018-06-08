@@ -1,7 +1,18 @@
 #!/bin/sh
 #Develop a script that parses csv file. CSV file contains info about students: Name, Last Name, Room, Course.
 #Script should have input variables for all available fileds + name of file. Goal: get results according to inputs
+FILE=$($#)
 NAME="$1"
 SNAME="$2"
-echo $FD
-awk -F ";" ' {print $'"$NAME"', $'"$SNAME"'} ' students.csv
+if [ -n "$SNAME" ]; then
+        SEP=", $"
+else    
+        SEP=""
+fi      
+VAR=$NAME$SEP$SNAME
+echo $VAR
+echo $FILE
+#awk -F ";" ' {print $'"$NAME, $SNAME"'} ' students.csv
+#awk -F ";" -v name="$NAME" -v sname="$SNAME" '{print $name}' $FILE
+awk -F ";" -v var="$VAR" '{print $(var)}' $FILE
+#echo $FD
